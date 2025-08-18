@@ -1,7 +1,35 @@
-export default function Nav() {
+import { Link } from "react-router-dom";
+
+export default function Nav({ search, setSearch }) {
+  function handleSearch(event) {
+    setSearch(event.target.value);
+  }
   return (
-    <nav>
-      <h1>Nav</h1>
+    <nav className="nav">
+      <form
+        className="search-form"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <label htmlFor="search">Search Posts</label>
+        <input
+          id="search"
+          type="text"
+          placeholder="Search Posts"
+          value={search}
+          onChange={handleSearch}
+        />
+      </form>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/post">Post</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+      </ul>
     </nav>
   );
 }
