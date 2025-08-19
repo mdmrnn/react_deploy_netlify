@@ -32,7 +32,7 @@ export default function App() {
     setTimeout(() => {
       fetchPosts();
     }, 2000);
-  });
+  }, []);
 
   return (
     <Routes>
