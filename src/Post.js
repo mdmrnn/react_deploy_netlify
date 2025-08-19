@@ -4,7 +4,7 @@ export default function Post({ post }) {
   return (
     <article className="post">
       <>
-        <Link to={`/post/${post.id}`}>
+        <Link to={`/posts/${post.id}`}>
           <h2>{post.title}</h2>
           <p className="post-date">{post.datetime}</p>
         </Link>

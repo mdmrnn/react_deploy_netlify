@@ -100,9 +100,9 @@ export default function App() {
           path="/"
           element={<Home posts={searchResults} isLoading={isLoading} />}
         />
-        <Route path="/post">
+        <Route path="/posts">
           <Route
-            path="/post"
+            path="/posts"
             element={
               <NewPost
                 postTitle={postTitle}
@@ -114,7 +114,7 @@ export default function App() {
             }
           />
           <Route
-            path="/post/:id"
+            path="/posts/:id"
             element={
               <PostPage
                 posts={posts}

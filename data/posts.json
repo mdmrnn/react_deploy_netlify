@@ -1,10 +1,16 @@
 {
   "posts": [
     {
-      "id": "3",
-      "title": "asdaD",
-      "datetime": "August 19, 2025 6:32:25 PM",
-      "body": "456"
+      "id": 4,
+      "title": "first correct new post",
+      "datetime": "August 19, 2025 6:59:58 PM",
+      "body": "my actions"
+    },
+    {
+      "id": 1,
+      "title": "try deleting new posts",
+      "datetime": "August 19, 2025 7:00:37 PM",
+      "body": "firstrs postsd"
     }
   ]
 }
