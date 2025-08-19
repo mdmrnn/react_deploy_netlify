@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function Nav({ search, setSearch }) {
-  function handleSearch(event) {
-    setSearch(event.target.value);
-  }
   return (
     <nav className="nav">
       <form
@@ -16,7 +13,7 @@ export default function Nav({ search, setSearch }) {
           type="text"
           placeholder="Search Posts"
           value={search}
-          onChange={handleSearch}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </form>
       <ul>
