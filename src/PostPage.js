@@ -19,14 +19,9 @@ export default function PostPage({ posts, handleDelete, isLoading }) {
             <h2>{post.title}</h2>
             <p className="post-date">{post.datetime}</p>
             <p className="post-body">{post.body}</p>
-            <form className="delete-form">
-              <button
-                className="delete-btn"
-                onClick={(e) => handleDelete(e, id)}
-              >
-                Delete
-              </button>
-            </form>
+            <button className="delete-btn" onClick={() => handleDelete(id)}>
+              Delete
+            </button>
           </>
         )}
         {!post && !isLoading && (

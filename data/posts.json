@@ -1,28 +1,10 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "asdasd",
-      "datetime": "August 19, 2025 5:13:52 PM",
-      "body": "asdasasd"
-    },
-    {
-      "id": 2,
-      "title": "test1",
-      "datetime": "August 19, 2025 5:24:32 PM",
-      "body": "yay!\n"
-    },
-    {
-      "id": 3,
-      "title": "test2",
-      "datetime": "August 19, 2025 5:24:48 PM",
-      "body": "yay !"
-    },
-    {
-      "id": 4,
-      "title": "test1",
-      "datetime": "August 19, 2025 5:32:47 PM",
-      "body": "yay"
+      "id": "3",
+      "title": "asdaD",
+      "datetime": "August 19, 2025 6:32:25 PM",
+      "body": "456"
     }
   ]
 }

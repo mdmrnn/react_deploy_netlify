@@ -8,7 +8,9 @@ export default function Post({ post }) {
           <h2>{post.title}</h2>
           <p className="post-date">{post.datetime}</p>
         </Link>
-        <p className="post-body">{post.body.slice(0, 25) + "..."}</p>
+        <p className="post-body">
+          {post.body.length >= 25 ? post.body.slice(0, 25) + "..." : post.body}
+        </p>
       </>
     </article>
   );

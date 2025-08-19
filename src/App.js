@@ -22,12 +22,12 @@ export default function App() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
+    const id = posts.length ? parseInt(posts[posts.length - 1].id) + 1 : 1;
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
     const newPost = { id, title: postTitle, datetime, body: postBody };
     const postOpt = {
       method: "POST",
-      header: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newPost),
     };
     try {
@@ -36,27 +36,33 @@ export default function App() {
       setFetchErr(null);
     } catch (err) {
       setFetchErr(err.message);
+    } finally {
+      const allPosts = [...posts, newPost];
+      setPosts(allPosts);
+      setPostTitle("");
+      setPostBody("");
+      navigate("/");
+      //window.location.reload();
     }
-    setPosts([...posts, newPost]);
-    setPostTitle("");
-    setPostBody("");
-    navigate("/");
-    //window.location.reload();
   }
 
-  async function handleDelete(e, id) {
-    e.preventDefault();
+  async function handleDelete(id) {
+    const delOpt = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    };
     try {
-      const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-      if (!response.ok) throw Error("Please delete the blog again");
+      const response = await fetch(`${API_URL}/${id}`, delOpt);
+      if (!response.ok) throw new Error("Please delete the blog again");
       setFetchErr(null);
     } catch (err) {
       setFetchErr(err.message);
+    } finally {
+      const newPosts = posts.filter((post) => post.id.toString() !== id);
+      setPosts(newPosts);
+      navigate("/");
+      //window.location.reload();
     }
-    const newPosts = posts.filter((post) => post.id === id);
-    setPosts(newPosts);
-    navigate("/");
-    //window.location.reload();
   }
 
   useEffect(() => {
