@@ -5,6 +5,30 @@
       "title": "my new post of 123",
       "datetime": "August 22, 2025 6:16:26 PM",
       "body": "thats the test of the weblog"
+    },
+    {
+      "id": 6,
+      "title": "im trying to test the weblog",
+      "datetime": "August 22, 2025 6:42:43 PM",
+      "body": "second test "
+    },
+    {
+      "id": 1,
+      "title": "the tset of axios",
+      "datetime": "August 22, 2025 6:44:11 PM",
+      "body": "axioaxio*50"
+    },
+    {
+      "id": 2,
+      "title": "asdad",
+      "datetime": "August 22, 2025 6:44:35 PM",
+      "body": "asdasd"
+    },
+    {
+      "id": 3,
+      "title": "using axios to post the new post",
+      "datetime": "August 22, 2025 7:07:18 PM",
+      "body": "Im testing the weblog"
     }
   ]
 }

@@ -7,6 +7,7 @@ import Missing from "./Missing";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import axios from "axios";
 
 export default function App() {
   const API_URL = "http://localhost:3500/posts";
@@ -15,34 +16,54 @@ export default function App() {
   const [searchResults, setSearchResults] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
-  const [fetchErr, setFetchErr] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const response = await axios.get(API_URL);
+        setPosts(response.data);
+      } catch (err) {
+        // From axios documentation
+        if (err.response) {
+          // Not in the 200 resposne range
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          // No resposne and all the other errors
+          console.log(`Error : ${err.message}`);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    setTimeout(() => {
+      fetchPosts();
+    }, 2000);
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
     const id = posts.length ? parseInt(posts[posts.length - 1].id) + 1 : 1;
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
     const newPost = { id, title: postTitle, datetime, body: postBody };
-    const postOpt = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newPost),
-    };
     try {
-      const response = await fetch(API_URL, postOpt);
-      if (!response.ok) throw Error("Please reload the application");
-      setFetchErr(null);
-    } catch (err) {
-      setFetchErr(err.message);
-    } finally {
-      const allPosts = [...posts, newPost];
+      const response = await axios.post(API_URL, newPost);
+      const allPosts = [...posts, response.data];
       setPosts(allPosts);
       setPostTitle("");
       setPostBody("");
       navigate("/");
-      //window.location.reload();
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else {
+        console.log(`Error : ${err.message}`);
+      }
     }
   }
 
@@ -54,9 +75,14 @@ export default function App() {
     try {
       const response = await fetch(`${API_URL}/${id}`, delOpt);
       if (!response.ok) throw new Error("Please delete the blog again");
-      setFetchErr(null);
     } catch (err) {
-      setFetchErr(err.message);
+      if (err.response) {
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else {
+        console.log(`Error : ${err.message}`);
+      }
     } finally {
       const newPosts = posts.filter((post) => post.id.toString() !== id);
       setPosts(newPosts);
@@ -64,25 +90,6 @@ export default function App() {
       //window.location.reload();
     }
   }
-
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw Error("Please Reload the Weblog");
-        const initialPosts = await response.json();
-        setPosts(initialPosts);
-        setFetchErr(null);
-      } catch (err) {
-        setFetchErr(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    setTimeout(() => {
-      fetchPosts();
-    }, 2000);
-  }, []);
 
   useEffect(() => {
     const filteredResults = posts.filter(
