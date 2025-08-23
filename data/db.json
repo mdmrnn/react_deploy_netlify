@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "id": "21",
+      "title": "10th post",
+      "datetime": "August 23, 2025 2:05:22 PM",
+      "body": "string id tester further body"
+    },
+    {
+      "id": "23",
+      "title": "69th post",
+      "datetime": "August 23, 2025 2:09:34 PM",
+      "body": "this is for put test"
+    }
+  ]
+}

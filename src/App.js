@@ -1,28 +1,32 @@
 import Layout from "./Layout";
 import Home from "./Home";
 import NewPost from "./NewPost";
+import EditPost from "./EditPost";
 import PostPage from "./PostPage";
 import About from "./About";
 import Missing from "./Missing";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import api from "./api/posts";
 import axios from "axios";
 
 export default function App() {
-  const API_URL = "http://localhost:3500/posts";
+  const API_URL = "http://localhost:3500";
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await axios.get(API_URL);
+        const response = await api.get("/posts");
         setPosts(response.data);
       } catch (err) {
         // From axios documentation
@@ -46,11 +50,13 @@ export default function App() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const id = posts.length ? parseInt(posts[posts.length - 1].id) + 1 : 1;
+    const id = (
+      posts.length ? parseInt(posts[posts.length - 1].id) + 1 : 1
+    ).toString();
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
     const newPost = { id, title: postTitle, datetime, body: postBody };
     try {
-      const response = await axios.post(API_URL, newPost);
+      const response = await api.post("/posts", newPost);
       const allPosts = [...posts, response.data];
       setPosts(allPosts);
       setPostTitle("");
@@ -68,13 +74,11 @@ export default function App() {
   }
 
   async function handleDelete(id) {
-    const delOpt = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    };
     try {
-      const response = await fetch(`${API_URL}/${id}`, delOpt);
-      if (!response.ok) throw new Error("Please delete the blog again");
+      await axios.delete(`${API_URL}/posts/${id}`);
+      const newPosts = posts.filter((post) => post.id !== id);
+      setPosts(newPosts);
+      navigate("/");
     } catch (err) {
       if (err.response) {
         console.log(err.response.data);
@@ -83,11 +87,30 @@ export default function App() {
       } else {
         console.log(`Error : ${err.message}`);
       }
-    } finally {
-      const newPosts = posts.filter((post) => post.id.toString() !== id);
-      setPosts(newPosts);
+    }
+  }
+
+  async function handleEdit(id) {
+    const datetime = format(new Date(), "MMMM dd, yyyy pp");
+    const updatedPost = { id, title: editTitle, datetime, body: editBody };
+    try {
+      const response = await api.put(`${API_URL}/posts/${id}`, updatedPost);
+      setPosts(
+        posts.map((post) =>
+          post.id.toString() === id.toString() ? { ...response.data } : post
+        )
+      );
+      setEditTitle("");
+      setEditBody("");
       navigate("/");
-      //window.location.reload();
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else {
+        console.log(`Error : ${err.message}`);
+      }
     }
   }
 
@@ -126,6 +149,21 @@ export default function App() {
               <PostPage
                 posts={posts}
                 handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                isLoading={isLoading}
+              />
+            }
+          />
+          <Route
+            path="/posts/edit/:id"
+            element={
+              <EditPost
+                editTitle={editTitle}
+                setEditTitle={setEditTitle}
+                editBody={editBody}
+                setEditBody={setEditBody}
+                handleEdit={handleEdit}
+                posts={posts}
                 isLoading={isLoading}
               />
             }

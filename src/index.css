@@ -205,11 +205,10 @@ body {
   cursor: pointer;
 }
 
-.missing h2,
-.post-page h2,
 .missing p,
-.post-page p {
-  margin-bottom: 1rem;
+.post-page p,
+.new-post p {
+  margin-top: 1rem;
 }
 
 .post-page button {
@@ -218,9 +217,17 @@ body {
   border-radius: 0.25rem;
   padding: 0.5rem;
   font-size: 1rem;
-  background-color: red;
+  margin-right: 0.5rem;
   color: #fff;
   cursor: pointer;
+}
+
+.delete-btn {
+  background-color: red;
+}
+
+.edit-btn {
+  background-color: #333;
 }
 
 .status-msg {
