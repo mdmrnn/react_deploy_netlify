@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import api from "./api/posts";
 import axios from "axios";
+import useWindowSize from "./hooks/useWindowSize";
+//import useAxiosFetch from "./hooks/useAxiosFetch";
 
 export default function App() {
   const API_URL = "http://localhost:3500";
@@ -22,11 +24,22 @@ export default function App() {
   const [editBody, setEditBody] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { width } = useWindowSize();
+  /*
+  const { data, fetchErr, isLoading } = useAxiosFetch(
+    "http://localhost:3500/posts"
+  );
+  console.log(data);
+  useEffect(() => {
+    setPosts(data);
+    console.log(data);
+  }, [data]);
+*/
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await api.get("/posts");
+        const response = await axios.get("http://localhost:3500/posts");
         setPosts(response.data);
       } catch (err) {
         // From axios documentation
@@ -40,12 +53,12 @@ export default function App() {
           console.log(`Error : ${err.message}`);
         }
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       }
     }
-    setTimeout(() => {
-      fetchPosts();
-    }, 2000);
+    fetchPosts();
   }, []);
 
   async function handleSubmit(e) {
@@ -125,7 +138,9 @@ export default function App() {
 
   return (
     <Routes>
-      <Route element={<Layout search={search} setSearch={setSearch} />}>
+      <Route
+        element={<Layout search={search} setSearch={setSearch} width={width} />}
+      >
         <Route
           path="/"
           element={<Home posts={searchResults} isLoading={isLoading} />}
