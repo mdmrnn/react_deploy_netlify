@@ -1,10 +1,10 @@
 {
   "posts": [
     {
-      "id": "23",
-      "title": "69th post",
-      "datetime": "August 23, 2025 5:21:51 PM",
-      "body": "this is for put test"
+      "id": "1",
+      "title": "1st post",
+      "datetime": "August 24, 2025 11:52:18 AM",
+      "body": "this is the post with id 1"
     }
   ]
 }

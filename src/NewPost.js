@@ -1,10 +1,8 @@
-export default function NewPost({
-  postTitle,
-  setPostTitle,
-  postBody,
-  setPostBody,
-  handleSubmit,
-}) {
+import DataContext from "./Context/DataContext";
+import { useContext } from "react";
+export default function NewPost() {
+  const { postTitle, setPostTitle, postBody, setPostBody, handleSubmit } =
+    useContext(DataContext);
   return (
     <main className="new-post">
       <h2>New Post</h2>

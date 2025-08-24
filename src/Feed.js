@@ -1,8 +1,11 @@
 import Post from "./Post";
-export default function Feed({ posts }) {
+import { useContext } from "react";
+import DataContext from "./Context/DataContext";
+export default function Feed() {
+  const { searchResults } = useContext(DataContext);
   return (
     <>
-      {posts.map((post) => (
+      {searchResults.map((post) => (
         <Post key={post.id} post={post} />
       ))}
     </>

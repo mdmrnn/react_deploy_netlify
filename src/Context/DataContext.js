@@ -1,19 +1,13 @@
-import Layout from "./Layout";
-import Home from "./Home";
-import NewPost from "./NewPost";
-import EditPost from "./EditPost";
-import PostPage from "./PostPage";
-import About from "./About";
-import Missing from "./Missing";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import api from "./api/posts";
+import api from "../api/posts";
 import axios from "axios";
-//import useAxiosFetch from "./hooks/useAxiosFetch";
-import { DataProvider } from "./Context/DataContext";
+import useWindowSize from "../hooks/useWindowSize";
 
-export default function App() {
+const DataContext = createContext({});
+
+export function DataProvider({ children }) {
   const API_URL = "http://localhost:3500";
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
@@ -24,17 +18,18 @@ export default function App() {
   const [editBody, setEditBody] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { width } = useWindowSize();
 
   /* useAxiosFetch is a custom hook that created but didnt work properly so its commented for now
-  const { data, fetchErr, isLoading } = useAxiosFetch(
-    "http://localhost:3500/posts"
-  );
-  console.log(data);
-  useEffect(() => {
-    setPosts(data);
+    const { data, fetchErr, isLoading } = useAxiosFetch(
+      "http://localhost:3500/posts"
+    );
     console.log(data);
-  }, [data]);
-*/
+    useEffect(() => {
+      setPosts(data);
+      console.log(data);
+    }, [data]);
+  */
 
   useEffect(() => {
     async function fetchPosts() {
@@ -60,6 +55,15 @@ export default function App() {
     }
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    const filteredResults = posts.filter(
+      (post) =>
+        post.body.toLowerCase().includes(search.toLowerCase()) ||
+        post.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setSearchResults(filteredResults.reverse());
+  }, [posts, search]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -127,29 +131,31 @@ export default function App() {
     }
   }
 
-  useEffect(() => {
-    const filteredResults = posts.filter(
-      (post) =>
-        post.body.toLowerCase().includes(search.toLowerCase()) ||
-        post.title.toLowerCase().includes(search.toLowerCase())
-    );
-    setSearchResults(filteredResults.reverse());
-  }, [posts, search]);
-
   return (
-    <DataProvider>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts">
-            <Route path="/posts" element={<NewPost />} />
-            <Route path="/posts/:id" element={<PostPage />} />
-            <Route path="/posts/edit/:id" element={<EditPost />} />
-          </Route>
-          <Route path="about" element={<About />}></Route>
-          <Route path="*" element={<Missing />}></Route>
-        </Route>
-      </Routes>
-    </DataProvider>
+    <DataContext.Provider
+      value={{
+        width,
+        search,
+        setSearch,
+        searchResults,
+        postTitle,
+        setPostTitle,
+        postBody,
+        setPostBody,
+        handleSubmit,
+        posts,
+        handleDelete,
+        isLoading,
+        handleEdit,
+        editTitle,
+        setEditTitle,
+        editBody,
+        setEditBody,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
   );
 }
+
+export default DataContext;
