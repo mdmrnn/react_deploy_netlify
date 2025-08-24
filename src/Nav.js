@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import DataContext from "./Context/DataContext";
+import { useStoreState, useStoreActions } from "easy-peasy";
 
 export default function Nav() {
-  const { search, setSearch } = useContext(DataContext);
+  const search = useStoreState((state) => state.search);
+  const setSearch = useStoreActions((actions) => actions.setSearch);
 
   return (
     <nav className="nav">

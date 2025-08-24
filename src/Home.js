@@ -1,9 +1,8 @@
 import Feed from "./Feed";
-import { useContext } from "react";
-import DataContext from "./Context/DataContext";
+import { useStoreState } from "easy-peasy";
 
-export default function Home() {
-  const { searchResults, isLoading } = useContext(DataContext);
+export default function Home({ isLoading }) {
+  const searchResults = useStoreState((state) => state.searchResults);
 
   return (
     <main className="home">
@@ -12,7 +11,7 @@ export default function Home() {
           posts are Loading ...
         </p>
       )}
-      {!isLoading && !searchResults.length && (
+      {!isLoading && !searchResults && (
         <p className="status-msg" style={{ marginTop: "2rem" }}>
           No post to display
         </p>

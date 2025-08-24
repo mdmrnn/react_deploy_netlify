@@ -17,6 +17,12 @@
       "title": "3rd post ",
       "datetime": "August 24, 2025 11:56:29 AM",
       "body": "i shoul be able to delete and edit posts"
+    },
+    {
+      "id": "4",
+      "title": "1st post",
+      "datetime": "August 24, 2025 9:50:17 PM",
+      "body": "im writing a new post!"
     }
   ]
 }

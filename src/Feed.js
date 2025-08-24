@@ -1,13 +1,12 @@
+import { useStoreState } from "easy-peasy";
 import Post from "./Post";
-import { useContext } from "react";
-import DataContext from "./Context/DataContext";
+
 export default function Feed() {
-  const { searchResults } = useContext(DataContext);
+  const searchResults = useStoreState((state) => state.searchResults);
   return (
     <>
-      {searchResults.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+      {searchResults &&
+        searchResults.map((post) => <Post key={post.id} post={post} />)}
     </>
   );
 }
