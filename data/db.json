@@ -1,28 +1,3 @@
 {
-  "posts": [
-    {
-      "id": "1",
-      "title": "1st post",
-      "datetime": "August 24, 2025 11:52:18 AM",
-      "body": "this is the post with id 1"
-    },
-    {
-      "id": "2",
-      "title": "2nd post",
-      "datetime": "August 24, 2025 11:55:53 AM",
-      "body": "im cjhecking the weblog"
-    },
-    {
-      "id": "3",
-      "title": "3rd post ",
-      "datetime": "August 24, 2025 11:56:29 AM",
-      "body": "i shoul be able to delete and edit posts"
-    },
-    {
-      "id": "4",
-      "title": "1st post",
-      "datetime": "August 24, 2025 9:50:17 PM",
-      "body": "im writing a new post!"
-    }
-  ]
+  "posts": []
 }

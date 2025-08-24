@@ -23,11 +23,11 @@ export default function EditPost({ isLoading }) {
     }
   }, [posts, setEditTitle, setEditBody]);
 
-  async function handleEdit(id) {
+  function handleEdit(id) {
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
     const updatedPost = { id, title: editTitle, datetime, body: editBody };
     editPost(updatedPost);
-    navigate("/");
+    navigate(`/posts/${id}`);
   }
 
   return (
@@ -60,7 +60,7 @@ export default function EditPost({ isLoading }) {
             onChange={(e) => setEditBody(e.target.value)}
           />
           <button
-            type="submit"
+            type="button"
             className="edit-post"
             onClick={() => handleEdit(id)}
           >

@@ -8,7 +8,7 @@ export default function PostPage({ isLoading }) {
   const getPostById = useStoreState((state) => state.getPostById);
   const post = getPostById(id);
 
-  async function handleDelete(id) {
+  function handleDelete(id) {
     deletePost(id);
     navigate("/");
   }

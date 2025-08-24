@@ -11,7 +11,7 @@ export default function NewPost() {
   const setPostBody = useStoreActions((actions) => actions.setPostBody);
   const savePost = useStoreActions((actions) => actions.savePost);
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     const id = (
       posts.length ? parseInt(posts[posts.length - 1].id) + 1 : 1
